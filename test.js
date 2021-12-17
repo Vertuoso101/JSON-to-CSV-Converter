@@ -20,7 +20,7 @@ const connectDB = async () => {
   };
   connectDB();
   
-const db = mongojs('test',[]);
+const db = mongojs('The data base name I used',[]);
 let test = [];
 db.collection('The name of the collection you want to convert').find({}, (err, doc)=>{
     if(err){
