@@ -8,7 +8,7 @@ const fs =  require('fs');
 
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/test', {
+        await mongoose.connect('link to your data base in MongoDb', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -22,7 +22,7 @@ const connectDB = async () => {
   
 const db = mongojs('test',[]);
 let test = [];
-db.collection('Sun Aug 15 2021 to Mon Aug 16 2021').find({}, (err, doc)=>{
+db.collection('The name of the collection you want to convert').find({}, (err, doc)=>{
     if(err){
         console.log(err);
     }
@@ -35,7 +35,7 @@ db.collection('Sun Aug 15 2021 to Mon Aug 16 2021').find({}, (err, doc)=>{
           }
           else {
             fs.writeFileSync('converter.csv', csv);
-            console.log('Conversion to CSV is complited!');
+            console.log('Conversion to CSV is completed!');
           }
       })
       
