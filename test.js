@@ -8,7 +8,7 @@ const fs =  require('fs');
 //connecting to Mongodb
 const connectDB = async () => {
     try {
-        await mongoose.connect('mongodb://localhost:27017/test', {
+        await mongoose.connect('url of my data base', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -20,7 +20,7 @@ const connectDB = async () => {
   };
   connectDB();
 //accessing the data base
-const db = mongojs('test',[]);
+const db = mongojs('my data base name',[]);
 //preparing an array of all the existing collection in the database
 db.listCollections((err, res)=>{
     if(err){
