@@ -1,14 +1,14 @@
 const express = require("express");
 const app = express();
-
 const mongoose = require('mongoose');
 const mongojs = require('mongojs');
 const converter = require('json-2-csv');
 const fs =  require('fs');
 
+//connecting to Mongodb
 const connectDB = async () => {
     try {
-        await mongoose.connect('link to your data base in MongoDb', {
+        await mongoose.connect('mongodb://localhost:27017/test', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -19,32 +19,45 @@ const connectDB = async () => {
     }
   };
   connectDB();
-  
-const db = mongojs('The data base name I used',[]);
-let test = [];
-db.collection('The name of the collection you want to convert').find({}, (err, doc)=>{
+//accessing the data base
+const db = mongojs('test',[]);
+//preparing an array of all the existing collection in the database
+db.listCollections((err, res)=>{
     if(err){
         console.log(err);
     }
     else {
-        
-      console.log(doc);
-      converter.json2csv(doc, (err, csv)=>{
-          if(err){
-              console.log(err);
-          }
-          else {
-            fs.writeFileSync('converter.csv', csv);
-            console.log('Conversion to CSV is completed!');
-          }
-      })
-      
-        
+        for(let k=0;k<res.length;k++){
+            //itteratiing through the array to get each individuel collection ready
+            db.collection(res[k].name).find({}, (err, doc)=>{
+                if(err){
+                    console.log(err);
+                }
+                else {
+                    let test = [];
+                    for(let i=0;i<doc.length;i++){
+                        delete doc[i]._id;
+                        test.push(doc[i]);
+                    }
+                  converter.json2csv(test, (err, csv)=>{
+                      
+                      if(err){
+                          console.log(err);
+                      }
+                      else {
+                          //converting each collection into a csv file
+                        fs.writeFileSync(`${res[k].name}.csv`, csv);
+                        console.log(`The collection ${res[k].name} was converted successfully to CSV format!`);
+                      }
+                  })
+                  
+                    
+                }
+            
+            });
+            
+        }
     }
-
-});
+})
 
    
-    
-
-
