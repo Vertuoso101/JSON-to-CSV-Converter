@@ -1,7 +1,7 @@
 pipeline{
   agent any
   stages{
-    stage("bild"){
+    stage("build"){
       echo 'building the application...'
     }
     stage("test"){
