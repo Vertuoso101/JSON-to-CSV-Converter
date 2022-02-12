@@ -4,7 +4,7 @@ pipeline{
     stage("bild"){
       echo 'building the application...'
     }
-    stage("test){
+    stage("test"){
       echo 'testing the application...'
           }
     stage("deploy"){
